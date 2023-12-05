@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "tachyons";
 
 function App() {
   return (
@@ -12,52 +13,51 @@ function App() {
   );
 }
 
-/*
 const pizzaData = [
   {
     name: "Focaccia",
-    ingredients: "Bread with italian olive oil and rosemary",
+    ingredients: "Brot mit italienischem Olivenöl und Rosmarin.",
     price: 6,
-    photoName: "pizzas/focaccia.jpg",
+    photoName: "focaccia.jpg",
     soldOut: false,
   },
   {
     name: "Pizza Margherita",
-    ingredients: "Tomato and mozarella",
+    ingredients: "Tomatensauce und Mozzarella.",
     price: 10,
-    photoName: "pizzas/margherita.jpg",
+    photoName: "margherita.jpg",
     soldOut: false,
   },
   {
     name: "Pizza Spinaci",
-    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
+    ingredients: "Tomatensauce, Mozzarella, Spinat und Ricotta-Käse.",
     price: 12,
-    photoName: "pizzas/spinaci.jpg",
+    photoName: "spinaci.jpg",
     soldOut: false,
   },
   {
     name: "Pizza Funghi",
-    ingredients: "Tomato, mozarella, mushrooms, and onion",
+    ingredients: "Tomatensauce, Mozzarella, Pilze und Zwiebeln.",
     price: 12,
-    photoName: "pizzas/funghi.jpg",
+    photoName: "funghi.jpg",
     soldOut: false,
   },
   {
-    name: "Pizza Salamino",
-    ingredients: "Tomato, mozarella, and pepperoni",
+    name: "Pizza Salami",
+    ingredients: "Tomatensauce, Mozzarella, Salami und Pepperoni.",
     price: 15,
-    photoName: "pizzas/salamino.jpg",
+    photoName: "salamino.jpg",
     soldOut: true,
   },
   {
     name: "Pizza Prosciutto",
-    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
+    ingredients: "Tomatensauce, Mozzarella, Schinken, Rucola und Burrata-Käse.",
     price: 18,
-    photoName: "pizzas/prosciutto.jpg",
+    photoName: "prosciutto.jpg",
     soldOut: false,
   },
 ];
-*/
+
 function Header() {
   return (
     <header className="header">
@@ -67,37 +67,36 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
   return (
     <main className="menu">
       <h2>Unser Menü</h2>
-      <Pizza
-        name="Pizza Spinaci"
-        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-        photoName="spinaci.jpg"
-        price={10}
-      />
-
-      <Pizza
-        name="Pizza Funghi"
-        ingredients="Tomato, mushrooms"
-        photoName="funghi.jpg"
-        price={10}
-      />
+      {numPizzas > 0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizzas.name} />
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
 
 function Pizza(props) {
-  console.log(props);
   return (
-    <div className="pizza">
-      <img alt={props.name} src={props.photoName}></img>
-      <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price}</span>
+    <li className="pizza">
+      <img
+        className="grow"
+        alt={props.pizzaObj.name}
+        src={props.pizzaObj.photoName}
+      ></img>
+      <div className="grow pointer">
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -106,13 +105,16 @@ function Footer() {
   const openHour = 12;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
-  console.log(isOpen);
-
-  console.log(hour);
+  const time = new Date().toLocaleTimeString();
   return (
     <footer className="footer">
-      <span className="time-center">{new Date().toLocaleTimeString()}.</span>
-      <p>Wir haben geöffnet!</p>
+      {isOpen && (
+        <div className="order">
+          <span>{time}</span>
+          <p>Wir haben bis {closeHour} Uhr geöffnet!</p>
+          <button className="btn grow">Bestellen</button>
+        </div>
+      )}
     </footer>
   );
 }
