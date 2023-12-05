@@ -72,12 +72,14 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Unser Menü</h2>
-      {numPizzas > 0 && (
+      {numPizzas > 0 ? (
         <ul className="pizzas">
           {pizzas.map((pizza) => (
             <Pizza pizzaObj={pizza} key={pizzas.name} />
           ))}
         </ul>
+      ) : (
+        <p>Aktuell keine Pizzen verfügbar!</p>
       )}
     </main>
   );
@@ -94,7 +96,7 @@ function Pizza(props) {
       <div className="grow pointer">
         <h3>{props.pizzaObj.name}</h3>
         <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <span>{props.pizzaObj.price}€</span>
       </div>
     </li>
   );
@@ -108,11 +110,18 @@ function Footer() {
   const time = new Date().toLocaleTimeString();
   return (
     <footer className="footer">
-      {isOpen && (
+      {isOpen ? (
         <div className="order">
           <span>{time}</span>
-          <p>Wir haben bis {closeHour} Uhr geöffnet!</p>
+          <p>Wir haben bis {closeHour}:00 Uhr geöffnet!</p>
           <button className="btn grow">Bestellen</button>
+        </div>
+      ) : (
+        <div className="order1">
+          <p>Wir haben aktuell geschlossen unsere Öffnungszeiten sind von</p>
+          <p>
+            {openHour}:00 Uhr bis {closeHour}:00 Uhr.
+          </p>
         </div>
       )}
     </footer>
