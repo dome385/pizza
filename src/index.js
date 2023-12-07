@@ -72,12 +72,19 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Unser Menü</h2>
+
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizzas.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentische Italienische Küche. <br></br> Alles aus unserem
+            Steinofen.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizzas.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>Aktuell keine Pizzen verfügbar!</p>
       )}
@@ -85,18 +92,14 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+function Pizza({ pizzaObj }) {
   return (
-    <li className="pizza">
-      <img
-        className="grow"
-        alt={props.pizzaObj.name}
-        src={props.pizzaObj.photoName}
-      ></img>
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img className="grow" alt={pizzaObj.name} src={pizzaObj.photoName}></img>
       <div className="grow pointer">
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}€</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut ? "AUSVERKAUFT" : pizzaObj.price + "€"}</span>
       </div>
     </li>
   );
@@ -124,11 +127,11 @@ function Footer() {
   );
 }
 
-function Order(props) {
+function Order({ closeHour, time }) {
   return (
     <div className="order">
-      <span>{props.time}</span>
-      <p>Wir haben bis {props.closeHour}:00 Uhr geöffnet!</p>
+      <span>{time}</span>
+      <p>Wir haben bis {closeHour}:00 Uhr geöffnet!</p>
       <button className="btn grow">Bestellen</button>
     </div>
   );
